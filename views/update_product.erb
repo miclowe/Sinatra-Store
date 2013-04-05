@@ -1,0 +1,39 @@
+<h1>Update Product</h1>
+
+<!-- 
+<p>
+  params[:product_name] = <% params[:product_name] %><br />
+  params[:product_price] = <% params[:product_price] %></p>
+ -->
+<div id="products">
+  <table class="table">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>On Sale</th>
+    </tr>
+    <tr>
+      <td><%= @row['id'] %></td>
+      <td><%= @row['name'] %></td>
+      <td><%= @row['price'] %></td>
+      <td>
+        <% if @row['on_sale'] == "t" %>
+          <img src="../icon-sale.png">
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<form action="/products/<%= @id %>" method="POST">
+  <p>
+    <label for='product_name'>Name:</label>
+    <input type='text' name='product_name' placeholder='<%= @row['name'] %>' />
+  </p>
+  <p>
+    <label for='product_price'>Price:</label>
+    <input type='text' name='product_price' placeholder='<%= @row['price'] %>' />
+  </p>
+  <button>Save Changes</button>
+</form>

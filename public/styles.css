@@ -1,0 +1,20 @@
+
+div {
+  line-height: 1;
+}
+
+header h1 {
+  font-size: 48px;
+  padding: 25px;
+  text-align: center;
+}
+
+.container table.table {
+  margin: auto;
+  width: 500px;
+}
+
+.table .btn {
+  font-size: 11px;
+  padding: 2px 6px;
+}
