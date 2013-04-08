@@ -1,28 +1,35 @@
-<div id="products">
-  <table class="table">
-    <tr>
-      <td></th>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Price</th>
-      <th>On Sale</th>
-    </tr>
-    <% @rs.each do | row | %>
-    <tr>
-      <td>
-        <a class="btn" href='/products/<%= row['id'] %>'>Update</a>
-      </td>
-      <td><%= row['id'] %></td>
-      <td><%= row['name'] %></td>
-      <td><%= row['price'] %></td>
-      <td>
-        <% if row['on_sale'] == "t" %>
-          <img src="../icon-sale.png">
-        <% end %>
-      </td>
-    </tr>
-    <% end%>
-  </table>
+<!-- Product Details -->
+<div id="products-list">
+  <h3>Sinatra Store Products</h3>
+  <div class="span2">
+    <a class="btn edit" href="/product/new">Add Product</a>
+  </div>
+  <div class="span8">
+    <div class="list-display">
+      <table class="table table-striped table-condensed table-hover">
+        <tr>
+          <td></th>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th></th>
+        </tr>
+        <% @rs.each do | row | %>
+        <tr>
+          <td>
+            <a class="btn details" href="/products/<%= row['id'] %>?q=<%= URI.escape(row['name']) %>">Details</a>
+          </td>
+          <td><%= row['id'] %></td>
+          <td><%= row['name'] %></td>
+          <td><%= row['price'] %></td>
+          <td>
+            <% if row['on_sale'] == "t" %>
+              <img src="../images/icon-sale.png" height=20px width=20px>
+            <% end %>
+          </td>
+        </tr>
+        <% end%>
+      </table>
+    </div>
+  </div>
 </div>
-
-<a href="<%= @back %>">Home</a>

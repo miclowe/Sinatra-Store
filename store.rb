@@ -4,7 +4,12 @@ gem 'sinatra', '1.3.0'
 require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
-require "better_errors"
+require 'better_errors'
+require 'open-uri'
+require 'json'
+require 'uri'
+
+#APIkey = AIzaSyDwnQ5cOPLODuEf-lJerLupLLxhYyPmRu8
 
 configure :development do
   use BetterErrors::Middleware
@@ -20,24 +25,38 @@ end
 
 # Home page
 get '/' do
-  @users = '/users'
-  @back = '/products'
-  erb :home
+  erb :home, :layout => false
 end
 
 # Display all users
 get '/users' do
   @rs = @db.execute("SELECT * FROM users;")
-  @back = '/'
   erb :show_users
+end
+
+get '/users.json' do
+  # Only select info needed
+  @rs = @db.execute("SELECT id, name FROM users;")
+  # Convert to JSON
+  @rs.to_json
 end
 
 # Display all products 
 get '/products' do
-  @on_sale = @db.execute("SELECT * FROM products WHERE on_sale = 't';")
   @rs = @db.execute("SELECT * FROM products;")
-  @back = '/'
   erb :show_products
+end
+
+# Update product
+post '/products/:id' do
+  @id = params[:id]
+  @name = params[:product_name]
+  @price = params[:product_price]
+  @on_sale = params[:on_sale]
+  @action = "updated"
+  @rs = @db.execute("UPDATE products SET name='#{@name}', price=#{@price}, on_sale='#{@on_sale}' WHERE id=#{@id};")
+  @rs = @db.execute("SELECT * FROM products;")
+  erb :confirmation
 end
 
 # Display a specific product
@@ -46,44 +65,67 @@ get '/products/:id' do
   @name = params[:name]
   @price = params[:product_price]
   @on_sale = params[:on_sale]
-  sql = "SELECT * FROM products WHERE id = #{@id};"
-  @row = @db.get_first_row(sql)
-  erb :update_product
+  @q = params[:q]
+  file = open("https://www.googleapis.com/shopping/search/v1/public/products?key=AIzaSyDwnQ5cOPLODuEf-lJerLupLLxhYyPmRu8&country=US&q=#{URI.escape(@q)}&alt=json&maxResults=10",:ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE)
+  # .read returns file as string
+  @results = JSON.load(file.read)
+  @row = @db.get_first_row("SELECT * FROM products WHERE id = #{@id};")
+  erb :product_details
 end
 
-# Update product
-post '/products/:id' do
+get '/products/:id/search' do
+  # Query sting
   @id = params[:id]
+  @name = params[:name]
+  @q = params[:q]
+  file = open("http://search.twitter.com/search.json?q=#{URI.escape(@q)}")
+  # .read returns file as string
+  @results = JSON.load(file.read)
+  @row = @db.get_first_row("SELECT * FROM products WHERE id = #{@id};")
+  erb :results_twitter, :layout => false
+end
+
+get '/product/new' do
+  @rs = @db.execute("SELECT * FROM products;")
+  erb :new_product
+end
+
+post '/new-product' do
   @name = params[:product_name]
   @price = params[:product_price]
-  sql = "UPDATE products SET name='#{@name}', price=#{@price} WHERE id=#{@id};"
-  @rs = @db.execute(sql)
-  sql = "SELECT * FROM products WHERE id = #{@id};"
-  @row = @db.get_first_row(sql)
+  @on_sale = params[:on_sale]
+  @rs = @db.execute("INSERT INTO products ('name', 'price', 'on_sale') VALUES('#{@name}', '#{@price}', '#{@on_sale}');")
+  @rs = @db.execute("SELECT * FROM products;")
+  erb :confirmation_added
+end
+
+# Display UI to update/delete specific product
+get '/products/:id/edit' do
+  @id = params[:id]
+  @name = params[:name]
+  @price = params[:product_price]
+  @on_sale = params[:on_sale]
+  @row = @db.get_first_row("SELECT * FROM products WHERE id = #{@id};")
   erb :update_product
 end
 
-# Create new product
-post '/products' do
-  @name = params[:product_name]
+# Display UI to update/delete specific product
+get '/products/:id/destroy' do
+  @id = params[:id]
+  @name = params[:name]
   @price = params[:product_price]
-  sql = "INSERT INTO products ('name', 'price') VALUES ('#{name}', #{price});"
-  @rs = @db.execute(sql)
-  erb :created_product
+  @on_sale = params[:on_sale]
+  @row = @db.get_first_row("SELECT * FROM products WHERE id = #{@id};")
+  erb :delete_product
 end
 
 # Delete product
 post '/products/:id/destroy' do
+  @id = params[:id]
+  name = params[:product_name]
+  @price = params[:product_price]
+  @action = "deleted"
+  @rs = @db.execute("DELETE FROM products WHERE id=#{@id};")
+  @rs = @db.execute("SELECT * FROM products;")
+  erb :confirmation
 end
-
-# Return HTML form for creating new product
-get '/product/new' do
-  erb :new_product
-end
-
-# @rows = first item after select item to update
-# put this in href for update button
-# get '/product/:id/edit' do
-#   @id
-#   sql = SELECT * from products where id = @id
-#   @row = @db.get_first_row(sql)

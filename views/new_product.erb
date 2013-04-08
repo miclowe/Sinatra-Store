@@ -1,18 +1,24 @@
-<h1>New Product</h1>
 
-<!-- 
-<p>
-  params[:product_name] = <% params[:product_name] %><br />
-  params[:product_price] = <% params[:product_price] %></p>
- -->
-<form action="/new_product" method="POST">
-  <p>
-    <label for='product_name'>Name:</label>
-    <input type='text' name='product_name' />
-  </p>
-  <p>
-    <label for='product_price'>Price:</label>
-    <input type='text' name='product_price' />
-  </p>
-  <button>Save it!</button>
-</form>
+<div id="products-list">
+  <h3>Sinatra Store Products</h3>
+  <div class="span4 form-box"> 
+    <div> 
+      <form class="product-form" action="/new-product" method="POST">
+        <fieldset>
+          <legend>Add New Product</legend>
+          <p>Name: *<input type='text' name='product_name' class="input-block-level" /></p>
+          <p>Price: *<input type='text' name='product_price' class="input-block-level" /></p>
+          <p>On Sale?: *<input type="radio" name="on_sale" value="t" class="radio inline" /><label for="on_sale">Yes</label>
+          <input type="radio" name="on_sale" value="f" class="radio inline" /><label for="on_sale">No</label></p>
+          <p id="required">* - required</p>
+          <div>
+            <input type="submit" class="btn edit" value="Save" />
+            <a class="btn edit" href="/products">Cancel</a>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+
+  <%= erb :products_list %>
+</div>

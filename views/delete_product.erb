@@ -2,16 +2,13 @@
   <h3>Sinatra Store Products</h3>
   <div class="span4 form-box">
     <div>
-      <form class="product-form" action="/products/<%= @id %>" method="POST">
+      <form class="product-form" action="/products/<%= @id %>/destroy" method="POST">
         <fieldset>
-          <legend>Update Product</legend>
-          <p>New Name: <input type='text' name='product_name' class="input-block-level" value='<%= @row['name'] %>' /></p>
-          <p>New Price: <input type='text' name='product_price' class="input-block-level" value='<%= @row['price'] %>' /></p>
-          <p>On-Sale?: <input class="radio inline" type="radio" name="on_sale" value="t">Yes
-          <input class="radio inline" type="radio" name="on_sale" value="f">No</p>
+          <legend>Delete Product</legend>
+          <p>Are you sure you want to delete this product?</p>
           <div>
-            <input type="submit" class="btn edit" value="Save" />
-            <a class="btn edit" href="/products">Cancel</a>
+            <input type="submit" class="btn edit" value="Yes" />
+            <a class="btn edit" href="/products">No</a>
           </div>
         </fieldset>
       </form>

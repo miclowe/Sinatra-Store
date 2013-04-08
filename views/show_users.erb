@@ -1,13 +1,20 @@
-<table class="table">
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-  </tr>
-  <% @rs.each do | row | %>
-  <tr>
-    <td><%= row['id'] %></td>
-    <td><%= row['name'] %></td>
-  </tr>
-  <% end%>
-</table>
-<a href="<%= @back %>">Home</a>
+<!-- User List -->
+<div id="users-list">
+  <h3>Sinatra Store Users</h3>
+  <div class="span8 offset2">
+    <div class="list-display">
+      <table class="table table-striped table-condensed table-hover">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+        </tr>
+        <% @rs.each do | row | %>
+        <tr>
+          <td><%= row['id'] %></td>
+          <td><%= row['name'] %></td>
+        </tr>
+        <% end%>
+      </table>
+    </div>
+  </div>
+</div>

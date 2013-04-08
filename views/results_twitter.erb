@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sinatra Store</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css">
+    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css">
+  </head>
+
+  <body class="search-results">
+    <!-- Twitter results -->
+    <div id="results">
+      <div class="container">
+        <div class="row">
+          <div class="span10">
+            <h3><%= @row['name'] %> on Twitter</h3>
+            <div class="container">
+              <% @results["results"].each do |result| %>
+              <div class="row">
+                <div class="span2">
+                  <img src="<%= result["profile_image_url"] %>">
+                </div>
+                <div class="span8">
+                  <p>@<%= result["from_user"] %> tweeted:</p>
+                  <p><%= result["text"] %></p>
+                </div>
+              </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

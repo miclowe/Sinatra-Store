@@ -1,0 +1,35 @@
+<div id="product-details">
+  <h3>Product Details</h3>
+  <div class="span2">
+      <a class="btn edit" href="/products/<%= @id %>/edit">Update</a>
+      <a class="btn edit" href="/products/<%= @id %>/destroy">Delete</a>
+  </div>
+  <div class="span8">
+    <div class="list-display">
+      <table class="table table-striped table-condensed table-hover">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr>
+          <td><%= @row['id'] %></td>
+          <td><%= @row['name'] %></td>
+          <td><%= @row['price'] %></td>
+          <td>
+            <% if @row['on_sale'] == "t" %>
+              <img src="../images/icon-sale.png" height=20px width=20px>
+            <% end %>
+          </td>
+          <td>
+            <a href="/products/<%= @row['id'] %>/search?q=<%= URI.escape(@row['name']) %>" target="_blank"><img src="../images/twitter-icon.png" alt="<%= @row['name'] %> on Twitter" title="<%= @row['name'] %> on Twitter" /></a>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <%= erb :results_google %>  
+</div>

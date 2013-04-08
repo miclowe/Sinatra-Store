@@ -1,0 +1,14 @@
+
+<div id="products-list">
+  <h3>Sinatra Store Products</h3>
+  <div class="span4"> 
+    <div id="confirm">
+      <h4><%= @name %> has been added</h4>
+      <p>Add another?</p>
+        <a class="btn edit" href="/product/new">Yes</a>
+        <a class="btn edit" href="/products">No</a>
+    </div>
+  </div>
+
+  <%= erb :products_list %>
+</div>

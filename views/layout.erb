@@ -2,15 +2,34 @@
 <html lang="en">
   <head>
     <title>Sinatra Store</title>
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css">
+    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css">
   </head>
   <body>
     <header>
-      <h1>Sinatra Store</h1>
+      <div id="logo">
+        <h3><img src="../../images/logo.png" />Sinatra</h3>
+      </div>
+      <div id="navmenu">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/users">Users</a></li>
+          <li><a href="/products">Products</a></li>
+        </ul>
+      </div>
     </header>
-    <div class = "container">
-      <%= yield %>
-  </div>
+    <div class="container">
+      <div class="row">
+        <%= yield %>
+      </div>
+    </div>
+    <footer>
+      <div id="copyright">
+        <p>Copyright &copy; 2013 Sinatra Store</p>
+      </div>
+    </footer>
   </body>
 </html>

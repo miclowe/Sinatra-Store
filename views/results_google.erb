@@ -1,0 +1,30 @@
+<!-- Google results -->
+  <div id="results">
+    <div class="container">
+      <div class="row">
+        <div class="span10">
+          <hr />
+          <h3>Similar items on Google</h3>
+          <div class="container">
+            <% @results["items"].each do |item| %>
+            <% product = item["product"] %>
+            <div class="row">
+              <div class="span10">
+                <h5><a href="<%= product["link"] %>" target="_blank"><%= product["title"] %></a></h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="span2">
+                <img src="<%= product["images"][0]["link"] %>" />
+              </div>
+              <div class="span8">
+                <p><%= product["description"] %></p>
+                <p>Price: <%= product["inventories"][0]["price"] %></p>
+              </div>
+            </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
